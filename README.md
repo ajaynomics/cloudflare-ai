@@ -1,4 +1,4 @@
-# Cloudflare::Ai
+# Cloudflare::AI
 
 TODO: Delete this and the text below, and describe your gem
 
@@ -36,4 +36,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the Cloudflare::Ai project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cloudflare-ai/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the Cloudflare::AI project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cloudflare-ai/blob/master/CODE_OF_CONDUCT.md).

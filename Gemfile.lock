@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     cloudflare-ai (0.1.0)
+      zeitwerk (~> 2.5)
 
 GEM
   remote: https://rubygems.org/
@@ -50,6 +51,7 @@ GEM
       lint_roller (~> 1.1)
       rubocop-performance (~> 1.20.2)
     unicode-display_width (2.5.0)
+    zeitwerk (2.6.12)
 
 PLATFORMS
   arm64-darwin-22
@@ -57,9 +59,9 @@ PLATFORMS
 
 DEPENDENCIES
   cloudflare-ai!
-  minitest (~> 5.16)
-  rake (~> 13.0)
-  rubocop (~> 1.21)
+  minitest
+  rake
+  rubocop
   standard
 
 BUNDLED WITH
