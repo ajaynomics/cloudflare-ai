@@ -6,19 +6,17 @@ Gem::Specification.new do |spec|
   spec.name = "cloudflare-ai"
   spec.version = Cloudflare::Ai::VERSION
   spec.authors = ["Ajay Krishnan"]
-  spec.email = ["50063680+ajaynomics@users.noreply.github.com"]
+  spec.email = ["rubygems@krishnan.ca"]
 
-  spec.summary = "TODO: Write a short summary, because RubyGems requires one."
-  spec.description = "TODO: Write a longer description or delete this line."
-  spec.homepage = "TODO: Put your gem's website or public repo URL here."
+  spec.summary = "A ruby client for the Cloudflare AI Workers API."
+  spec.description = "This opinionated ruby client is intended to make it uncomfortably easy to use LLMs in your projects."
+  spec.homepage = "https://github.com/ajaynomics/cloudflare-ai"
   spec.license = "MIT"
-  spec.required_ruby_version = ">= 2.6.0"
-
-  spec.metadata["allowed_push_host"] = "TODO: Set to your gem server 'https://example.com'"
+  spec.required_ruby_version = ">= 3.0.0"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.metadata["source_code_uri"] = "https://github.com/ajaynomics/cloudflare-ai"
+  spec.metadata["changelog_uri"] = "https://github.com/ajaynomics/cloudflare-ai/blob/main/CHANGELOG.md"
 
   # Specify which files should be added to the gem when it is released.
   # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
