@@ -12,3 +12,7 @@ gem "minitest"
 gem "rubocop"
 
 gem "standard", require: false
+
+group :test do
+  gem "webmock"
+end
