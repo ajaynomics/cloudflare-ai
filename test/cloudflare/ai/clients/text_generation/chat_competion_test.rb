@@ -32,17 +32,24 @@ module Cloudflare::AI::Clients
         assert @client.chat(messages: messages_fixture) # Webmock will raise an error if the request was to wrong model
       end
 
-      def test_streaming_output_defaults_to_false
-        stream_value = nil
-        @client.send(:connection).stub(:post, ->(_, payload) {
-                                                connection = OpenStruct.new(body: payload)
-                                                stream_value = JSON.parse(connection.body)["stream"]
-                                                connection
-                                              }) do
-          @client.chat(messages: messages_fixture, model_name: @model_name)
+      def test_handle_streaming_from_cloudflare_to_client_if_block_given
+        set_service_url_for_model(@client.models[:text_generation].first)
+        stub_response_for_successful_completion
+
+        inner_streaming_response_from_cloudflare_handled = false
+        outer_streaming_response_relayed = false
+
+        EventStreamParser::Parser.stub_any_instance(:stream, -> { inner_streaming_response_from_cloudflare_handled = true }) do
+          @client.send(:connection).stub(:post, ->(*_, &block) {
+            %w[data_chunk].map { OpenStruct.new(options: OpenStruct.new(on_data: "dummy_proc")) }.each { |chunk| block.call(chunk, chunk.bytesize) }
+            outer_streaming_response_relayed = true
+          }) do
+            @client.chat(messages: messages_fixture) { |data| puts data }
+          end
         end
 
-        assert stream_value == false
+        assert inner_streaming_response_from_cloudflare_handled
+        assert outer_streaming_response_relayed
       end
 
       private

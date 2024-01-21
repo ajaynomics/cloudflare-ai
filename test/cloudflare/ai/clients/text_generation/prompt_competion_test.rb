@@ -25,24 +25,30 @@ module Cloudflare::AI::Clients
       end
 
       def test_uses_default_model_if_not_provided
-        model_name = @client.models[:text_generation].first # defaults to first in list
-        @url = @client.send(:service_url_for, account_id: @account_id, model_name: model_name)
-
+        set_service_url_for_model(@client.models[:text_generation].first) # defaults to first in list
         stub_response_for_successful_completion
+
         assert @client.complete(prompt: "Happy song") # Webmock will raise an error if the request was to wrong model
       end
 
-      def test_streaming_output_defaults_to_false
-        stream_value = nil
-        @client.send(:connection).stub(:post, ->(_, payload) {
-          connection = OpenStruct.new(body: payload)
-          stream_value = JSON.parse(connection.body)["stream"]
-          connection
-        }) do
-          @client.complete(prompt: "Hello, world!", model_name: @model_name)
+      def test_handle_streaming_from_cloudflare_to_client_if_block_given
+        set_service_url_for_model(@client.models[:text_generation].first)
+        stub_response_for_successful_completion
+
+        inner_streaming_data_received_from_cloudflare = false
+        outer_streaming_data_relayed_to_client_block = false
+
+        EventStreamParser::Parser.stub_any_instance(:stream, -> { inner_streaming_data_received_from_cloudflare = true }) do
+          @client.send(:connection).stub(:post, ->(*_, &block) {
+                                                  %w[data_chunk].map { OpenStruct.new(options: OpenStruct.new(on_data: "dummy_proc")) }.each { |chunk| block.call(chunk, chunk.bytesize) }
+                                                  outer_streaming_data_relayed_to_client_block = true
+                                                }) do
+            @client.complete(prompt: "Happy song") { |data| puts data }
+          end
         end
 
-        assert stream_value == false
+        assert inner_streaming_data_received_from_cloudflare
+        assert outer_streaming_data_relayed_to_client_block
       end
     end
   end

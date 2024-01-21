@@ -8,7 +8,13 @@ module Cloudflare
           @model_name = "fake-model-name"
 
           @client = Cloudflare::AI::Client.new(account_id: @account_id, api_token: @api_token)
-          @url = @client.send(:service_url_for, account_id: @account_id, model_name: @model_name)
+          @url = set_service_url_for_model(@model_name)
+        end
+
+        private
+
+        def set_service_url_for_model(model_name)
+          @url = @client.send(:service_url_for, account_id: @account_id, model_name: model_name)
         end
       end
     end

@@ -4,6 +4,7 @@ PATH
     cloudflare-ai (0.1.0)
       activemodel (~> 7.0)
       activesupport (~> 7.0)
+      event_stream_parser (~> 1.0)
       faraday (~> 2.0)
       zeitwerk (~> 2.5)
 
@@ -33,6 +34,7 @@ GEM
       rexml
     drb (2.2.0)
       ruby2_keywords
+    event_stream_parser (1.0.0)
     faraday (2.9.0)
       faraday-net_http (>= 2.0, < 3.2)
     faraday-net_http (3.1.0)
