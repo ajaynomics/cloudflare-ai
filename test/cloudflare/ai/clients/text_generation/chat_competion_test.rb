@@ -36,9 +36,9 @@ module Cloudflare::AI::Clients
 
       def messages_fixture
         [
-          {role: "system", content: "This is a system message"},
-          {role: "assistant", content: "This is an assistant message"},
-          {role: "user", content: "This is a user message"}
+          Cloudflare::AI::Message.new(role: "system", content: "This is a system message"),
+          Cloudflare::AI::Message.new(role: "assistant", content: "This is an assistant message"),
+          Cloudflare::AI::Message.new(role: "user", content: "This is a user message")
         ]
       end
     end

@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Cloudflare::AI::TestResult < Minitest::Test
+class Cloudflare::AI::ResultTest < Minitest::Test
   def test_successful_result
     result = Cloudflare::AI::Result.new(successful_response_json)
     assert result.success?
