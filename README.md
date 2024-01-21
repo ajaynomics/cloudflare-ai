@@ -89,6 +89,17 @@ result = client.chat(messages: messages)
 puts result.response # => "Yes, I love Cloudflare!"
 ```
 
+##### Streaming responses
+Responses will be streamed back to the client using Server Side Events (SSE) if a block is passed to the `chat` or `complete` method.
+```ruby
+result = client.complete(prompt: "Hi!") { |data| puts data}
+# {"response":" "}
+# {"response":" Hello"}
+# {"response":" there"}
+# {"response":"!"}
+# {"response":""}
+# [DONE]
+```
 ## Logging
 
 This gem uses standard logging mechanisms and defaults to `:warn` level. Most messages are at info level, but we will add debug or warn statements as needed.
