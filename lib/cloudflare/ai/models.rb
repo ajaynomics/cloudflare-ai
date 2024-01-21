@@ -30,14 +30,14 @@ class Cloudflare::AI::Models
 
     def all
       {
-        text_generation:,
-        speech_recognition:,
-        translation:,
-        text_classification:,
-        image_classification:,
-        text_to_image:,
-        text_embeddings:
-      }.freeze
+        text_generation: text_generation,
+        speech_recognition: speech_recognition,
+        translation: translation,
+        text_classification: text_classification,
+        image_classification: image_classification,
+        text_to_image: text_to_image,
+        text_embeddings: text_embedding
+      }
     end
   end
 end
