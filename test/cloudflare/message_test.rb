@@ -30,10 +30,10 @@ class Cloudflare::AI::MessageTest < Minitest::Test
   private
 
   def system_message_fixture(content: "Hello")
-    Cloudflare::AI::Message.new(role: "system", content:)
+    Cloudflare::AI::Message.new(role: "system", content: content)
   end
 
   def user_message_fixture(content: "Hello")
-    Cloudflare::AI::Message.new(role: "user", content:)
+    Cloudflare::AI::Message.new(role: "user", content: content)
   end
 end

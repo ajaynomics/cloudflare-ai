@@ -4,14 +4,14 @@ class Cloudflare::AI::ResultTest < Minitest::Test
   def test_successful_result
     result = Cloudflare::AI::Result.new(successful_response_json)
     assert result.success?
-    assert !result.failure?
+    refute result.failure?
 
     assert_equal successful_response_json["result"]["response"], result.response
   end
 
   def test_unsuccessful_result
     result = Cloudflare::AI::Result.new(unsuccessful_response_json)
-    assert !result.success?
+    refute result.success?
     assert result.failure?
 
     assert_equal unsuccessful_response_json["errors"][0]["code"], result.errors[0]["code"]

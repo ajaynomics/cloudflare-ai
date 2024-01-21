@@ -7,7 +7,7 @@ module Cloudflare
 
           def stub_response_for_successful_completion(response: "Happy song")
             stub_request(:post, @url)
-              .to_return(status: 200, body: {result: {response:}, success: true}.to_json)
+              .to_return(status: 200, body: {result: {response: response}, success: true}.to_json)
           end
 
           def stub_response_for_unsuccessful_completion
