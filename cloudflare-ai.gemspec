@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email = ["rubygems@krishnan.ca"]
 
   spec.summary = "A client for the Cloudflare Workers AI API."
-  spec.description = "This opinionated ruby client is intended to make it uncomfortably easy to use LLMs in your projects."
+  spec.description = "This opinionated ruby client is intended to make it uncomfortably easy to use Cloudflare's models."
   spec.homepage = "https://rubygems.org/gems/cloudflare-ai"
   spec.license = "MIT"
   spec.required_ruby_version = ">= 3.0.0"
