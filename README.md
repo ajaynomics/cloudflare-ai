@@ -5,9 +5,7 @@ Hopefully this project makes it easier for ruby-first developers to consume
 Cloudflare's latest and greatest. 
 
 I'm a lawyer who codes, and I'm really interested in applying retrieval-augmented
-generation to make legal services more accessible. 
-
-I'm always interested to hear from passionate people. [Email me](mailto:cloudflare-ai@krishnan.ca).
+generation to make legal services more accessible. [Email me](mailto:cloudflare-ai@krishnan.ca).
 
 If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.
 
@@ -115,4 +113,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/ajayno
 
 ## License
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT). A special thanks to the team at [langchainrb](https://github.com/andreibondarev/langchainrb) &ndash; I learnt a lot reading your codebase as I muddled my way through the initial effort.
