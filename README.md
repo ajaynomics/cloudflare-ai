@@ -44,7 +44,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 
 ```ruby
-require "cloudflare-ai"
+require "cloudflare/ai"
 ```
 
 ### Cloudflare Workers AI
