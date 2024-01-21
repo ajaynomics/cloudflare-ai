@@ -29,9 +29,7 @@ class Cloudflare::AI::Client
     url = service_url_for(account_id: account_id, model_name: model_name)
     payload = {text: text}.to_json
 
-    raw_response = connection.post(url, payload).body
-    a = Cloudflare::AI::Results::TextEmbedding.new(raw_response)
-    b = a
+    Cloudflare::AI::Results::TextEmbedding.new(connection.post(url, payload).body)
   end
 
   private
