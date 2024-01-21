@@ -12,15 +12,15 @@ module Cloudflare::AI::Clients
         stub_response_for_successful_completion
         response = @client.complete(prompt: "Happy song", model_name: @model_name)
 
-        assert response.is_a? Cloudflare::AI::Result
+        assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.success?
       end
 
       def test_unsuccessful_request
         stub_response_for_unsuccessful_completion
-        response = @client.complete(prompt: "Happy song", model_name: @model_name)
+        response = @client.complete(prompt: "Sad song", model_name: @model_name)
 
-        assert response.is_a? Cloudflare::AI::Result
+        assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.failure?
       end
 
@@ -28,7 +28,7 @@ module Cloudflare::AI::Clients
         set_service_url_for_model(default_model_name)
         stub_response_for_successful_completion
 
-        assert @client.complete(prompt: "Happy song") # Webmock will raise an error if the request was to wrong model
+        assert @client.complete(prompt: "Default song") # Webmock will raise an error if the request was to wrong model
       end
 
       def test_handle_streaming_from_cloudflare_to_client_if_block_given

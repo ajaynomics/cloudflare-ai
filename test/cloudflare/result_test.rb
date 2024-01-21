@@ -2,7 +2,7 @@ require "test_helper"
 
 class Cloudflare::AI::ResultTest < Minitest::Test
   def test_successful_result
-    result = Cloudflare::AI::Result.new(successful_response_json)
+    result = Cloudflare::AI::Results::TextGeneration.new(successful_response_json)
     assert result.success?
     refute result.failure?
 
@@ -10,7 +10,7 @@ class Cloudflare::AI::ResultTest < Minitest::Test
   end
 
   def test_unsuccessful_result
-    result = Cloudflare::AI::Result.new(unsuccessful_response_json)
+    result = Cloudflare::AI::Results::TextGeneration.new(unsuccessful_response_json)
     refute result.success?
     assert result.failure?
 
@@ -19,7 +19,7 @@ class Cloudflare::AI::ResultTest < Minitest::Test
   end
 
   def test_to_json
-    result = Cloudflare::AI::Result.new(successful_response_json)
+    result = Cloudflare::AI::Results::TextGeneration.new(successful_response_json)
     assert_equal successful_response_json.to_json, result.to_json
   end
 

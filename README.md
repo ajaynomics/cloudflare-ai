@@ -61,26 +61,6 @@ Thiis gem provides a client that wraps around [Cloudflare's REST API](https://de
 client = Cloudflare::AI::Client.new(account_id: ENV["CLOUDFLARE_ACCOUNT_ID"], api_token: ENV["CLOUDFLARE_API_TOKEN"])
 ```
 
-#### Result object
-All invocations of the client return a `Cloudflare::AI::Result` object. This object's serializable JSON output is 
-based on the raw response from the Cloudflare API. 
-
-```ruby
-result = client.complete(prompt: "What is your name?")
-
-# Successful
-puts result.response # => "My name is John."
-puts result.success? # => true
-puts result.failure? # => false
-puts result.to_json # => {"result":{"response":"My name is John"},"success":true,"errors":[],"messages":[]}
-
-# Unsuccessful
-puts result.response # => nil
-puts result.success? # => false
-puts result.failure? # => true
-puts result.to_json # => {"result":null,"success":false,"errors":[{"code":7009,"message":"Upstream service unavailable"}],"messages":[]}
-```
-
 
 #### Text generation (chat / scoped prompt)
 ```ruby
@@ -104,7 +84,28 @@ result = client.complete(prompt: "Hi!") { |data| puts data}
 # {"response":"!"}
 # {"response":""}
 # [DONE]
+
 ```
+#### Result object
+All invocations of the `prompt` and `chat` methods return a `Cloudflare::AI::Results::TextGeneration` object. This object's serializable JSON output is
+based on the raw response from the Cloudflare API.
+
+```ruby
+result = client.complete(prompt: "What is your name?")
+
+# Successful
+puts result.response # => "My name is John."
+puts result.success? # => true
+puts result.failure? # => false
+puts result.to_json # => {"result":{"response":"My name is John"},"success":true,"errors":[],"messages":[]}
+
+# Unsuccessful
+puts result.response # => nil
+puts result.success? # => false
+puts result.failure? # => true
+puts result.to_json # => {"result":null,"success":false,"errors":[{"code":7009,"message":"Upstream service unavailable"}],"messages":[]}
+```
+
 ## Logging
 
 This gem uses standard logging mechanisms and defaults to `:warn` level. Most messages are at info level, but we will add debug or warn statements as needed.

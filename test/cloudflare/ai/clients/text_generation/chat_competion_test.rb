@@ -12,7 +12,7 @@ module Cloudflare::AI::Clients
         stub_response_for_successful_completion
         response = @client.chat(messages: messages_fixture, model_name: @model_name)
 
-        assert response.is_a? Cloudflare::AI::Result
+        assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.success?
       end
 
@@ -20,7 +20,7 @@ module Cloudflare::AI::Clients
         stub_response_for_unsuccessful_completion
         response = @client.chat(messages: messages_fixture, model_name: @model_name)
 
-        assert response.is_a? Cloudflare::AI::Result
+        assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.failure?
       end
 

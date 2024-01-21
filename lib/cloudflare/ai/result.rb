@@ -1,32 +1,45 @@
 require "active_support/core_ext/hash/indifferent_access"
+require "json"
 
 class Cloudflare::AI::Result
-  attr_reader :result, :success, :errors, :messages
-
-  def initialize(json)
-    @json = json
-    @json = JSON.parse(@json) unless @json.is_a?(Hash)
-    @json = @json.with_indifferent_access
-
-    @result = @json["result"]
-    @success = @json["success"]
-    @errors = @json["errors"]
-    @messages = @json["messages"]
+  def initialize(json_string_or_ruby_hash)
+    @result_data = parse_data(json_string_or_ruby_hash)
   end
 
-  def to_json
-    @json.to_json
+  def result
+    result_data[:result]
+  end
+
+  def success?
+    success == true
   end
 
   def failure?
     !success?
   end
 
-  def success?
-    success
+  def errors
+    result_data.dig(:errors)
   end
 
-  def response
-    result.with_indifferent_access["response"]
+  def messages
+    result_data.dig(:messages)
+  end
+
+  def to_json
+    result_data.to_json
+  end
+
+  private
+
+  attr_reader :result_data
+
+  def success
+    result_data[:success]
+  end
+
+  def parse_data(input)
+    input = JSON.parse(input) if input.is_a?(String)
+    input.with_indifferent_access
   end
 end
