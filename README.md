@@ -8,6 +8,7 @@ I'm a lawyer who codes, and I'm really interested in applying retrieval-augmente
 generation to make legal services more accessible. 
 
 I'm always interested to hear from passionate people. [Email me](mailto:cloudflare-ai@krishnan.ca).
+
 If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.
 
 ## Todo

@@ -11,13 +11,13 @@ class Cloudflare::AI::Client
   def complete(prompt:, model_name: models[:text_generation].first)
     url = service_url_for(account_id: account_id, model_name: model_name)
 
-    Cloudflare::AI::Result.new(connection.post(url, {prompt:}.to_json).body)
+    Cloudflare::AI::Result.new(connection.post(url, {prompt: prompt}.to_json).body)
   end
 
   def chat(messages:, model_name: models[:text_generation].first)
     url = service_url_for(account_id: account_id, model_name: model_name)
 
-    Cloudflare::AI::Result.new(connection.post(url, {messages:}.to_json).body)
+    Cloudflare::AI::Result.new(connection.post(url, {messages: messages}.to_json).body)
   end
 
   def models
