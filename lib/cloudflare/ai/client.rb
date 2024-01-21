@@ -18,6 +18,13 @@ class Cloudflare::AI::Client
     post_streamable_request(url, payload, &block)
   end
 
+  def classify(text:, model_name: Cloudflare::AI::Models.text_classification.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    payload = {text: text}.to_json
+
+    Cloudflare::AI::Results::TextClassification.new(connection.post(url, payload).body)
+  end
+
   def complete(prompt:, model_name: default_text_generation_model_name, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
