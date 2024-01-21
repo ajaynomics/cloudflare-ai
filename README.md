@@ -4,7 +4,12 @@ Cloudflare is testing its [Workers AI](https://blog.cloudflare.com/workers-ai) A
 Hopefully this project makes it easier for ruby-first developers to consume 
 Cloudflare's latest and greatest. 
 
-I'm a lawyer who codes, and I'm really interested in applying retrieval-augmented
+
+![Tests status](https://github.com/ajaynomics/cloudflare-ai/actions/workflows/ci.yml/badge.svg?branch=main)
+[![Gem Version](https://badge.fury.io/rb/cloudflare-ai.svg)](https://badge.fury.io/rb/cloudflare-ai)
+![GitHub License](https://img.shields.io/github/license/ajaynomics/cloudflare-ai)
+
+I'm really interested in applying retrieval-augmented
 generation to make legal services more accessible. [Email me](mailto:cloudflare-ai@krishnan.ca).
 
 If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.

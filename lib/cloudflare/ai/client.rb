@@ -9,17 +9,17 @@ class Cloudflare::AI::Client
     @api_token = api_token
   end
 
-  def complete(prompt:, model_name: models[:text_generation].first, &block)
-    url = service_url_for(account_id: account_id, model_name: model_name)
-    stream = block ? true : false
-    payload = create_payload({prompt: prompt}, stream: stream)
-    post_request(url, payload, &block)
-  end
-
   def chat(messages:, model_name: models[:text_generation].first, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
     payload = create_payload({messages: messages.map(&:serializable_hash)}, stream: stream)
+    post_request(url, payload, &block)
+  end
+
+  def complete(prompt:, model_name: models[:text_generation].first, &block)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    stream = block ? true : false
+    payload = create_payload({prompt: prompt}, stream: stream)
     post_request(url, payload, &block)
   end
 
