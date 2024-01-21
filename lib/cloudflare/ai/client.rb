@@ -8,16 +8,16 @@ class Cloudflare::AI::Client
     @api_token = api_token
   end
 
-  def complete(prompt:, model_name: models[:text_generation].first)
+  def complete(prompt:, stream: false, model_name: models[:text_generation].first)
     url = service_url_for(account_id: account_id, model_name: model_name)
 
-    Cloudflare::AI::Result.new(connection.post(url, {prompt: prompt}.to_json).body)
+    Cloudflare::AI::Result.new(connection.post(url, {prompt: prompt, stream: stream}.to_json).body)
   end
 
-  def chat(messages:, model_name: models[:text_generation].first)
+  def chat(messages:, stream: false, model_name: models[:text_generation].first)
     url = service_url_for(account_id: account_id, model_name: model_name)
 
-    Cloudflare::AI::Result.new(connection.post(url, {messages: messages}.to_json).body)
+    Cloudflare::AI::Result.new(connection.post(url, {messages: messages, stream: stream}.to_json).body)
   end
 
   def models

@@ -31,6 +31,19 @@ module Cloudflare::AI::Clients
         stub_response_for_successful_completion
         assert @client.complete(prompt: "Happy song") # Webmock will raise an error if the request was to wrong model
       end
+
+      def test_streaming_output_defaults_to_false
+        stream_value = nil
+        @client.send(:connection).stub(:post, ->(_, payload) {
+          connection = OpenStruct.new(body: payload)
+          stream_value = JSON.parse(connection.body)["stream"]
+          connection
+        }) do
+          @client.complete(prompt: "Hello, world!", model_name: @model_name)
+        end
+
+        assert stream_value == false
+      end
     end
   end
 end

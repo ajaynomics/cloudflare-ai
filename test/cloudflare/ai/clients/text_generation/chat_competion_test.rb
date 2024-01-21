@@ -32,6 +32,19 @@ module Cloudflare::AI::Clients
         assert @client.chat(messages: messages_fixture) # Webmock will raise an error if the request was to wrong model
       end
 
+      def test_streaming_output_defaults_to_false
+        stream_value = nil
+        @client.send(:connection).stub(:post, ->(_, payload) {
+                                                connection = OpenStruct.new(body: payload)
+                                                stream_value = JSON.parse(connection.body)["stream"]
+                                                connection
+                                              }) do
+          @client.chat(messages: messages_fixture, model_name: @model_name)
+        end
+
+        assert stream_value == false
+      end
+
       private
 
       def messages_fixture
