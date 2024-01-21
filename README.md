@@ -11,8 +11,8 @@ If you're looking for legal help, it's best to book a slot via https://www.krish
 
 ## Todo
 It's still early days, and here are my immediate priorities:
-* [ ] Support for streamed responses
-* [ ] CI pipeline and guidance for contributors
+* [x] Support for streamed responses
+* [x] CI pipeline
 * [ ] Support for more AI model categories
   * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
   * [ ] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
