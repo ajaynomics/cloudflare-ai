@@ -1,7 +1,8 @@
 Cloudflare AI Client for Ruby
 ---
 Cloudflare is testing its [Workers AI](https://blog.cloudflare.com/workers-ai) API. 
-Hopefully this project makes it easier for ruby-first developers consume their latest and greatest AI features.
+Hopefully this project makes it easier for ruby-first developers to consume 
+Cloudflare's latest and greatest. 
 
 I'm a lawyer who codes, and I'm really interested in applying retrieval-augmented
 generation to make legal services more accessible. 
