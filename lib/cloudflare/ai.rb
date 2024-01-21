@@ -2,6 +2,7 @@
 
 require_relative "ai/version"
 require "logger"
+require "pathname"
 require "zeitwerk"
 
 loader = Zeitwerk::Loader.for_gem
