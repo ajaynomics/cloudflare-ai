@@ -4,7 +4,9 @@ class Cloudflare::AI::Result
   attr_reader :result, :success, :errors, :messages
 
   def initialize(json)
-    @json = JSON.parse(json) if json.is_a?(String)
+    @json = json
+    @json = JSON.parse(@json) unless @json.is_a?(Hash)
+    @json = @json.with_indifferent_access
     @result = @json["result"]
     @success = @json["success"]
     @errors = @json["errors"]
