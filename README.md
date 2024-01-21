@@ -1,39 +1,116 @@
-# Cloudflare::AI
+Cloudflare AI Client for Ruby
+---
+Cloudflare is testing its [Workers AI](https://blog.cloudflare.com/workers-ai) API. 
+Hopefully this project makes it easier for ruby-first developers consume their latest and greatest AI features.
 
-TODO: Delete this and the text below, and describe your gem
+I'm a lawyer who codes, and I'm really interested in applying retrieval-augmented
+generation to make legal services more accessible. 
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/cloudflare/ai`. To experiment with that code, run `bin/console` for an interactive prompt.
+I'm always interested to hear from passionate people. [Email me](mailto:cloudflare-ai@krishnan.ca).
+If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.
+
+## Todo
+It's still early days, and here are my immediate priorities:
+* [ ] Support for streamed responses
+* [ ] CI pipeline and guidance for contributors
+* [ ] Support for more AI model categories
+  * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
+  * [ ] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
+  * [ ] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
+  * [ ] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
+  * [ ] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
+  * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
+  * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
+
+## Table of Contents
+
+- [Installation](#installation)
+- [Usage](#usage)
+- [Logging](#logging)
+- [Development](#development)
 
 ## Installation
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
-
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    bundle add cloudflare-ai
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+    gem install cloudflare-ai
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+require "cloudflare-ai"
+```
 
+### Cloudflare Workers AI
+Please visit the [Cloudflare Workers AI website](https://developers.cloudflare.com/workers-ai/) for more details.
+Thiis gem provides a client that wraps around [Cloudflare's REST API](https://developers.cloudflare.com/workers-ai/get-started/rest-api/).
+
+
+### Client
+
+```ruby
+client = Cloudflare::AI::Client.new(account_id: ENV["CLOUDFLARE_ACCOUNT_ID"], api_token: ENV["CLOUDFLARE_API_TOKEN"])
+```
+
+#### Result object
+All invocations of the client return a `Cloudflare::AI::Result` object. This object's serializable JSON output is 
+based on the raw response from the Cloudflare API. 
+
+```ruby
+result = client.complete(prompt: "What is your name?")
+
+# Successful
+puts result.response # => "My name is John."
+puts result.success? # => true
+puts result.failure? # => false
+puts result.to_json # => {"result":{"response":"My name is John"},"success":true,"errors":[],"messages":[]}
+
+# Unsuccessful
+puts result.response # => nil
+puts result.success? # => false
+puts result.failure? # => true
+puts result.to_json # => {"result":null,"success":false,"errors":[{"code":7009,"message":"Upstream service unavailable"}],"messages":[]}
+```
+
+
+#### Text generation (chat / scoped prompt)
+```ruby
+messages = [
+  Cloudflare::AI::Message.new(role: "system", content: "You are a big fan of Cloudflare and Ruby."),
+  Cloudflare::AI::Message.new(role: "user", content: "What is your favourite tech stack?"),
+  Cloudflare::AI::Message.new(role: "assistant", content: "I love building with Ruby on Rails and Cloudflare!"),
+  Cloudflare::AI::Message.new(role: "user", content: "Really? You like Cloudflare even though there isn't great support for Ruby?"),
+]
+result = client.chat(messages: messages)
+puts result.response # => "Yes, I love Cloudflare!"
+```
+
+## Logging
+
+This gem uses standard logging mechanisms and defaults to `:warn` level. Most messages are at info level, but we will add debug or warn statements as needed.
+To show all log messages:
+
+```ruby
+Cloudflare::AI.logger.level = :debug
+```
+
+You can use this logger as you would the default ruby logger. For example:
+```ruby
+Cloudflare::AI.logger = Logger.new($stdout)
+```
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+1. `git clone https://github.com/ajaynomics/cloudflare-ai.git`
+2. `bundle exec rake` to ensure that the tests pass and to run standardrb
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/cloudflare-ai. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/cloudflare-ai/blob/master/CODE_OF_CONDUCT.md).
+Bug reports and pull requests are welcome on GitHub at https://github.com/ajaynomics/cloudflare-ai.
 
 ## License
 
 The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
-
-## Code of Conduct
-
-Everyone interacting in the Cloudflare::AI project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/cloudflare-ai/blob/master/CODE_OF_CONDUCT.md).
