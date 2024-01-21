@@ -25,7 +25,7 @@ module Cloudflare::AI::Clients
       end
 
       def test_uses_default_model_if_not_provided
-        model_name = @client.models[:text_generation].first # defaults to first in list
+        model_name = Cloudflare::AI::Models.text_generation.first
         @url = @client.send(:service_url_for, account_id: @account_id, model_name: model_name)
 
         stub_response_for_successful_completion
@@ -33,7 +33,7 @@ module Cloudflare::AI::Clients
       end
 
       def test_handle_streaming_from_cloudflare_to_client_if_block_given
-        set_service_url_for_model(@client.models[:text_generation].first)
+        set_service_url_for_model(Cloudflare::AI::Models.text_generation.first)
         stub_response_for_successful_completion
 
         inner_streaming_response_from_cloudflare_handled = false

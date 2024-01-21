@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 require_relative "ai/version"
 require "logger"
 require "pathname"
@@ -27,6 +25,5 @@ module Cloudflare
     @root = Pathname.new(__dir__)
 
     class Error < StandardError; end
-    # Your code goes here...
   end
 end

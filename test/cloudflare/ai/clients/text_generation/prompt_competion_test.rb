@@ -25,14 +25,14 @@ module Cloudflare::AI::Clients
       end
 
       def test_uses_default_model_if_not_provided
-        set_service_url_for_model(@client.models[:text_generation].first) # defaults to first in list
+        set_service_url_for_model(default_model_name)
         stub_response_for_successful_completion
 
         assert @client.complete(prompt: "Happy song") # Webmock will raise an error if the request was to wrong model
       end
 
       def test_handle_streaming_from_cloudflare_to_client_if_block_given
-        set_service_url_for_model(@client.models[:text_generation].first)
+        set_service_url_for_model(default_model_name)
         stub_response_for_successful_completion
 
         inner_streaming_data_received_from_cloudflare = false
