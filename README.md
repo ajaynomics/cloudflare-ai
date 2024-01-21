@@ -1,4 +1,4 @@
-Cloudflare AI Client for Ruby
+cloudflare-ai:  a Cloudflare Workers AI client for ruby developers
 ---
 Cloudflare is testing its [Workers AI](https://blog.cloudflare.com/workers-ai) API. 
 Hopefully this project makes it easier for ruby-first developers to consume 
