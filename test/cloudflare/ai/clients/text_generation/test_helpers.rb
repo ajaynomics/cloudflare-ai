@@ -14,6 +14,10 @@ module Cloudflare
             stub_request(:post, @url)
               .to_return(status: 200, body: {success: false, errors: [{code: 10000, message: "Some error"}]}.to_json)
           end
+
+          def default_model_name
+            Cloudflare::AI::Models.text_generation.first
+          end
         end
       end
     end

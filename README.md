@@ -1,4 +1,4 @@
-cloudflare-ai:  a Cloudflare Workers AI client for ruby developers
+Cloudflare Workers AI API client for ruby
 ---
 Cloudflare is testing its [Workers AI](https://blog.cloudflare.com/workers-ai) API. 
 Hopefully this project makes it easier for ruby-first developers to consume 
@@ -14,27 +14,27 @@ generation to make legal services more accessible. [Email me](mailto:cloudflare-
 
 If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.
 
-## Todo
+# Todo
 It's still early days, and here are my immediate priorities:
 * [x] Support for streamed responses
 * [x] CI pipeline
 * [ ] Support for more AI model categories
   * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
-  * [ ] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
+  * [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
   * [ ] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
   * [ ] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
   * [ ] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
   * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
   * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
 
-## Table of Contents
+# Table of Contents
 
 - [Installation](#installation)
 - [Usage](#usage)
 - [Logging](#logging)
 - [Development](#development)
 
-## Installation
+# Installation
 
 Install the gem and add to the application's Gemfile by executing:
 
@@ -44,26 +44,51 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     gem install cloudflare-ai
 
-## Usage
+# Usage
 
 ```ruby
 require "cloudflare/ai"
 ```
 
-### Cloudflare Workers AI
+## Cloudflare Workers AI
 Please visit the [Cloudflare Workers AI website](https://developers.cloudflare.com/workers-ai/) for more details.
 Thiis gem provides a client that wraps around [Cloudflare's REST API](https://developers.cloudflare.com/workers-ai/get-started/rest-api/).
 
 
-### Client
+## Client
 
 ```ruby
 client = Cloudflare::AI::Client.new(account_id: ENV["CLOUDFLARE_ACCOUNT_ID"], api_token: ENV["CLOUDFLARE_API_TOKEN"])
 ```
 
+
+### Text generation (chat / scoped prompt)
+```ruby
+messages = [
+  Cloudflare::AI::Message.new(role: "system", content: "You are a big fan of Cloudflare and Ruby."),
+  Cloudflare::AI::Message.new(role: "user", content: "What is your favourite tech stack?"),
+  Cloudflare::AI::Message.new(role: "assistant", content: "I love building with Ruby on Rails and Cloudflare!"),
+  Cloudflare::AI::Message.new(role: "user", content: "Really? You like Cloudflare even though there isn't great support for Ruby?"),
+]
+result = client.chat(messages: messages)
+puts result.response # => "Yes, I love Cloudflare!"
+```
+
+#### Streaming responses
+Responses will be streamed back to the client using Server Side Events (SSE) if a block is passed to the `chat` or `complete` method.
+```ruby
+result = client.complete(prompt: "Hi!") { |data| puts data}
+# {"response":" "}
+# {"response":" Hello"}
+# {"response":" there"}
+# {"response":"!"}
+# {"response":""}
+# [DONE]
+
+```
 #### Result object
-All invocations of the client return a `Cloudflare::AI::Result` object. This object's serializable JSON output is 
-based on the raw response from the Cloudflare API. 
+All invocations of the `prompt` and `chat` methods return a `Cloudflare::AI::Results::TextGeneration` object. This object's serializable JSON output is
+based on the raw response from the Cloudflare API.
 
 ```ruby
 result = client.complete(prompt: "What is your name?")
@@ -82,30 +107,22 @@ puts result.to_json # => {"result":null,"success":false,"errors":[{"code":7009,"
 ```
 
 
-#### Text generation (chat / scoped prompt)
+### Text embedding
 ```ruby
-messages = [
-  Cloudflare::AI::Message.new(role: "system", content: "You are a big fan of Cloudflare and Ruby."),
-  Cloudflare::AI::Message.new(role: "user", content: "What is your favourite tech stack?"),
-  Cloudflare::AI::Message.new(role: "assistant", content: "I love building with Ruby on Rails and Cloudflare!"),
-  Cloudflare::AI::Message.new(role: "user", content: "Really? You like Cloudflare even though there isn't great support for Ruby?"),
-]
-result = client.chat(messages: messages)
-puts result.response # => "Yes, I love Cloudflare!"
+result = client.embed(text: "Hello")
+p result.shape # => [1, 768] # (1 embedding, 768 dimensions per embedding)
+p result.embedding # => [[-0.008496830239892006, 0.001376907923258841, -0.0323275662958622, ...]]
 ```
 
-##### Streaming responses
-Responses will be streamed back to the client using Server Side Events (SSE) if a block is passed to the `chat` or `complete` method.
+The input can be either a string (as above) or an array of strings:
 ```ruby
-result = client.complete(prompt: "Hi!") { |data| puts data}
-# {"response":" "}
-# {"response":" Hello"}
-# {"response":" there"}
-# {"response":"!"}
-# {"response":""}
-# [DONE]
+result = client.embed(text: ["Hello", "World"])
 ```
-## Logging
+
+#### Result object
+All invocations of the `embedding` methods return a `Cloudflare::AI::Results::TextEmbedding`. 
+
+# Logging
 
 This gem uses standard logging mechanisms and defaults to `:warn` level. Most messages are at info level, but we will add debug or warn statements as needed.
 To show all log messages:
@@ -118,12 +135,12 @@ You can use this logger as you would the default ruby logger. For example:
 ```ruby
 Cloudflare::AI.logger = Logger.new($stdout)
 ```
-## Development
+# Development
 
 1. `git clone https://github.com/ajaynomics/cloudflare-ai.git`
 2. `bundle exec rake` to ensure that the tests pass and to run standardrb
 
-## Contributing
+# Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/ajaynomics/cloudflare-ai.
 
