@@ -99,6 +99,12 @@ result = client.complete(prompt: "Hi!") { |data| puts data}
 # [DONE]
 
 ```
+#### Token limits
+Invocations of the `prompt` and `chat` can take an optional `max_tokens` argument that defaults to 256.
+```ruby
+result = client.complete(prompt: "What is your name?", max_tokens: 512)
+```
+
 #### Result object
 All invocations of the `prompt` and `chat` methods return a `Cloudflare::AI::Results::TextGeneration` object. This object's serializable JSON output is
 based on the raw response from the Cloudflare API.
