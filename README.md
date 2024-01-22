@@ -21,7 +21,7 @@ It's still early days, and here are my immediate priorities:
 * [ ] Support for more AI model categories
   * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
   * [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
-  * [ ] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
+  * [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
   * [ ] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
   * [ ] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
   * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
