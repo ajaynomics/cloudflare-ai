@@ -9,16 +9,16 @@ module Cloudflare::AI::Clients
       include Cloudflare::AI::Clients::TextGeneration::TestHelpers
 
       def test_successful_request
-        stub_successful_response
-        response = @client.chat(messages: messages_fixture, model_name: @model_name)
+        stub_successful_request
+        response = @client.chat(messages: messages_fixture, model_name: @model_name, max_tokens: @max_tokens)
 
         assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.success?
       end
 
       def test_unsuccessful_request
-        stub_unsuccessful_response
-        response = @client.chat(messages: messages_fixture, model_name: @model_name)
+        stub_unsuccessful_request
+        response = @client.chat(messages: messages_fixture, model_name: @model_name, max_tokens: @max_tokens)
 
         assert response.is_a? Cloudflare::AI::Results::TextGeneration
         assert response.failure?
@@ -28,7 +28,7 @@ module Cloudflare::AI::Clients
         model_name = Cloudflare::AI::Models.text_generation.first
         @url = @client.send(:service_url_for, account_id: @account_id, model_name: model_name)
 
-        stub_successful_response
+        stub_successful_request
         assert @client.chat(messages: messages_fixture) # Webmock will raise an error if the request was to wrong model
       end
 
@@ -49,7 +49,7 @@ module Cloudflare::AI::Clients
 
       def test_handle_streaming_from_cloudflare_to_client_if_block_given
         set_service_url_for_model(Cloudflare::AI::Models.text_generation.first)
-        stub_successful_response
+        stub_successful_request
 
         inner_streaming_response_from_cloudflare_handled = false
         outer_streaming_response_relayed = false
