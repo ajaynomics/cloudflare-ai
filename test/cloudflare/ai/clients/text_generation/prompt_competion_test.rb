@@ -31,6 +31,21 @@ module Cloudflare::AI::Clients
         assert @client.complete(prompt: "Default song") # Webmock will raise an error if the request was to wrong model
       end
 
+      def test_max_tokens_default_if_not_set
+        stub_successful_request
+
+        received_payload = nil
+
+        Faraday::Connection.stub_any_instance(:post, ->(_, payload) {
+          received_payload = payload
+          OpenStruct.new(body: {}.to_json)
+        }) do
+          @client.complete(prompt: "Tokens are not set", model_name: @model_name) # Webmock will raise an error if the request was to wrong model
+        end
+
+        assert_equal @client.send(:default_max_tokens), JSON.parse(received_payload)["max_tokens"]
+      end
+
       def test_handle_streaming_from_cloudflare_to_client_if_block_given
         set_service_url_for_model(default_model_name)
         stub_successful_response

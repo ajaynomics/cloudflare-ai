@@ -2,12 +2,16 @@ module Cloudflare
   module AI
     module Clients
       module TextGenerationHelpers
-        def default_text_generation_model_name
-          Cloudflare::AI::Models.text_generation.first
+        def create_streamable_payload(data, stream:, max_tokens:)
+          data.merge({stream: stream, max_tokens: max_tokens}).to_json
         end
 
-        def create_streamable_payload(data, stream: false)
-          data.merge({stream: stream}).to_json
+        def default_max_tokens
+          256
+        end
+
+        def default_text_generation_model_name
+          Cloudflare::AI::Models.text_generation.first
         end
 
         def post_streamable_request(url, payload, &block)

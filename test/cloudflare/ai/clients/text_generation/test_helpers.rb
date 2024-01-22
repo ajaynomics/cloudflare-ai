@@ -3,6 +3,10 @@ module Cloudflare
     module Clients
       module TextGeneration
         module TestHelpers
+          class << self
+            @max_tokens = 256
+          end
+
           private
 
           def default_model_name
