@@ -17,11 +17,11 @@ module Cloudflare
           @url = @client.send(:service_url_for, account_id: @account_id, model_name: model_name)
         end
 
-        def stub_successful_response
+        def stub_successful_request
           stub_request(:post, @url).to_return(status: 200, body: {success: true}.to_json)
         end
 
-        def stub_unsuccessful_response
+        def stub_unsuccessful_request
           stub_request(:post, @url)
             .to_return(status: 200, body: {success: false, errors: [{code: 10000, message: "Some error"}]}.to_json)
         end

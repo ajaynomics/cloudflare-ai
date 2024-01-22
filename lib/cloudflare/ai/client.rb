@@ -11,10 +11,10 @@ class Cloudflare::AI::Client
     @api_token = api_token
   end
 
-  def chat(messages:, model_name: default_text_generation_model_name, &block)
+  def chat(messages:, model_name: default_text_generation_model_name, max_tokens: default_max_tokens, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
-    payload = create_streamable_payload({messages: messages.map(&:serializable_hash)}, stream: stream)
+    payload = create_streamable_payload({messages: messages.map(&:serializable_hash)}, stream: stream, max_tokens: max_tokens)
     post_streamable_request(url, payload, &block)
   end
 
@@ -25,10 +25,10 @@ class Cloudflare::AI::Client
     Cloudflare::AI::Results::TextClassification.new(connection.post(url, payload).body)
   end
 
-  def complete(prompt:, model_name: default_text_generation_model_name, &block)
+  def complete(prompt:, model_name: default_text_generation_model_name, max_tokens: default_max_tokens, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
-    payload = create_streamable_payload({prompt: prompt}, stream: stream)
+    payload = create_streamable_payload({prompt: prompt}, stream: stream, max_tokens: max_tokens)
     post_streamable_request(url, payload, &block)
   end
 
