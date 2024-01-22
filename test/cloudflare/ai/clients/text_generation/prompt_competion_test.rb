@@ -9,7 +9,7 @@ module Cloudflare::AI::Clients
       include Cloudflare::AI::Clients::TextGeneration::TestHelpers
 
       def test_successful_request
-        stub_response_for_successful_completion
+        stub_successful_response
         response = @client.complete(prompt: "Happy song", model_name: @model_name)
 
         assert response.is_a? Cloudflare::AI::Results::TextGeneration
@@ -17,7 +17,7 @@ module Cloudflare::AI::Clients
       end
 
       def test_unsuccessful_request
-        stub_response_for_unsuccessful_completion
+        stub_unsuccessful_response
         response = @client.complete(prompt: "Sad song", model_name: @model_name)
 
         assert response.is_a? Cloudflare::AI::Results::TextGeneration
@@ -26,14 +26,14 @@ module Cloudflare::AI::Clients
 
       def test_uses_default_model_if_not_provided
         set_service_url_for_model(default_model_name)
-        stub_response_for_successful_completion
+        stub_successful_response
 
         assert @client.complete(prompt: "Default song") # Webmock will raise an error if the request was to wrong model
       end
 
       def test_handle_streaming_from_cloudflare_to_client_if_block_given
         set_service_url_for_model(default_model_name)
-        stub_response_for_successful_completion
+        stub_successful_response
 
         inner_streaming_data_received_from_cloudflare = false
         outer_streaming_data_relayed_to_client_block = false

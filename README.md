@@ -61,6 +61,19 @@ Thiis gem provides a client that wraps around [Cloudflare's REST API](https://de
 client = Cloudflare::AI::Client.new(account_id: ENV["CLOUDFLARE_ACCOUNT_ID"], api_token: ENV["CLOUDFLARE_API_TOKEN"])
 ```
 
+### Model selection
+The model name is an optional parameter to every one of the client methods described below.
+For example, if an example is documented as 
+```ruby
+result = client.complete(prompt: "Hello my name is")
+```
+this is implicitly the same as 
+```ruby
+result = client.complete(prompt: "Hello my name is", model: "@cf/meta/llama-2-7b-chat-fp16")
+```
+The full list of supported models is available here: [models.rb](lib/cloudflare/ai/models.rb).
+More information is available [in the cloudflare documentation](https://developers.cloudflare.com/workers-ai/models/).
+The default model used is the first enumerated model in the applicable set in [models.rb](lib/cloudflare/ai/models.rb).
 
 ### Text generation (chat / scoped prompt)
 ```ruby
@@ -120,7 +133,16 @@ result = client.embed(text: ["Hello", "World"])
 ```
 
 #### Result object
-All invocations of the `embedding` methods return a `Cloudflare::AI::Results::TextEmbedding`. 
+All invocations of the `embed` methods return a `Cloudflare::AI::Results::TextEmbedding`. 
+
+### Text classification
+```ruby
+result = client.classify(text: "You meanie!")
+p result.result # => [{"label"=>"NEGATIVE", "score"=>0.6647962927818298}, {"label"=>"POSITIVE", "score"=>0.3352036774158478}]
+```
+
+#### Result object
+All invocations of the `classify` methods return a `Cloudflare::AI::Results::TextClassification`.
 
 # Logging
 
