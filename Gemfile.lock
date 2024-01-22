@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    cloudflare-ai (0.3.0)
+    cloudflare-ai (0.4.0)
       activemodel (~> 7.0)
       activesupport (~> 7.0)
       event_stream_parser (~> 1.0)
