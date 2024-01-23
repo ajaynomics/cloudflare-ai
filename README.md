@@ -75,7 +75,8 @@ The full list of supported models is available here: [models.rb](lib/cloudflare/
 More information is available [in the cloudflare documentation](https://developers.cloudflare.com/workers-ai/models/).
 The default model used is the first enumerated model in the applicable set in [models.rb](lib/cloudflare/ai/models.rb).
 
-### Text generation (chat / scoped prompt)
+### Text generation
+#### (chat / scoped prompt)
 ```ruby
 messages = [
   Cloudflare::AI::Message.new(role: "system", content: "You are a big fan of Cloudflare and Ruby."),
@@ -86,9 +87,10 @@ messages = [
 result = client.chat(messages: messages)
 puts result.response # => "Yes, I love Cloudflare!"
 ```
-### Text generation (string prompt)
+#### (string prompt)
 ```ruby
 result = client.complete(prompt: "What is your name?", max_tokens: 512)
+puts result.response # => "My name is Jonas."
 ```
 
 #### Streaming responses
