@@ -31,11 +31,6 @@ module Cloudflare::AI::Clients
 
     private
 
-    def stub_successful_request
-      stub_request(:post, @url)
-        .to_return(status: 200, body: {success: true}.to_json)
-    end
-
     def default_model_name
       Cloudflare::AI::Models.text_embedding.first
     end

@@ -22,8 +22,8 @@ It's still early days, and here are my immediate priorities:
   * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
   * [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
   * [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
+  * [x] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
   * [ ] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
-  * [ ] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
   * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
   * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
 
@@ -125,7 +125,6 @@ puts result.failure? # => true
 puts result.to_json # => {"result":null,"success":false,"errors":[{"code":7009,"message":"Upstream service unavailable"}],"messages":[]}
 ```
 
-
 ### Text embedding
 ```ruby
 result = client.embed(text: "Hello")
@@ -149,6 +148,15 @@ p result.result # => [{"label"=>"NEGATIVE", "score"=>0.6647962927818298}, {"labe
 
 #### Result object
 All invocations of the `classify` methods return a `Cloudflare::AI::Results::TextClassification`.
+
+### Translation
+```ruby
+result = client.translate(text: "Hello Jello", source_lang: "en", target_lang: "fr")
+p result.translated_text # => Hola Jello
+```
+
+#### Result object
+All invocations of the `translate` methods return a `Cloudflare::AI::Results::Translate`.
 
 # Logging
 

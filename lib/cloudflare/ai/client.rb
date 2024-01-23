@@ -39,6 +39,12 @@ class Cloudflare::AI::Client
     Cloudflare::AI::Results::TextEmbedding.new(connection.post(url, payload).body)
   end
 
+  def translate(text:, target_lang:, source_lang: "en", model_name: Cloudflare::AI::Models.translation.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    payload = {text: text, target_lang: target_lang, source_lang: source_lang}.to_json
+    Cloudflare::AI::Results::Translation.new(connection.post(url, payload).body)
+  end
+
   private
 
   def connection
