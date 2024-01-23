@@ -86,6 +86,10 @@ messages = [
 result = client.chat(messages: messages)
 puts result.response # => "Yes, I love Cloudflare!"
 ```
+### Text generation (string prompt)
+```ruby
+result = client.complete(prompt: "What is your name?", max_tokens: 512)
+```
 
 #### Streaming responses
 Responses will be streamed back to the client using Server Side Events (SSE) if a block is passed to the `chat` or `complete` method.
@@ -101,9 +105,6 @@ result = client.complete(prompt: "Hi!") { |data| puts data}
 ```
 #### Token limits
 Invocations of the `prompt` and `chat` can take an optional `max_tokens` argument that defaults to 256.
-```ruby
-result = client.complete(prompt: "What is your name?", max_tokens: 512)
-```
 
 #### Result object
 All invocations of the `prompt` and `chat` methods return a `Cloudflare::AI::Results::TextGeneration` object. This object's serializable JSON output is
