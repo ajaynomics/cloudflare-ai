@@ -29,7 +29,7 @@ class Cloudflare::AI::Client
       payload = {text: text}.to_json
       Cloudflare::AI::Results::TextClassification.new(connection.post(url, payload).body)
     else
-      image = open(image) if image.is_a?(String)
+      image = File.open(image) if image.is_a?(String)
       Cloudflare::AI::Results::ImageClassification.new(post_request_with_binary_file(url, image).body)
     end
   end
