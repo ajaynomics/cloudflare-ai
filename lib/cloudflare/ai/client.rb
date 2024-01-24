@@ -2,6 +2,7 @@ require "event_stream_parser"
 require "faraday"
 
 class Cloudflare::AI::Client
+  include Cloudflare::AI::Clients::ImageHelpers
   include Cloudflare::AI::Clients::TextGenerationHelpers
 
   attr_reader :url, :account_id, :api_token
@@ -18,11 +19,19 @@ class Cloudflare::AI::Client
     post_streamable_request(url, payload, &block)
   end
 
-  def classify(text:, model_name: Cloudflare::AI::Models.text_classification.first)
-    url = service_url_for(account_id: account_id, model_name: model_name)
-    payload = {text: text}.to_json
+  def classify(text: nil, image: nil, model_name: nil)
+    raise ArgumentError, "Must provide either text or image (and not both)" if [text, image].compact.size != 1
 
-    Cloudflare::AI::Results::TextClassification.new(connection.post(url, payload).body)
+    model_name ||= text ? Cloudflare::AI::Models.text_classification.first : Cloudflare::AI::Models.image_classification.first
+    url = service_url_for(account_id: account_id, model_name: model_name)
+
+    if text
+      payload = {text: text}.to_json
+      Cloudflare::AI::Results::TextClassification.new(connection.post(url, payload).body)
+    else
+      image = open(image) if image.is_a?(String)
+      Cloudflare::AI::Results::ImageClassification.new(post_request_with_binary_file(url, image).body)
+    end
   end
 
   def complete(prompt:, model_name: default_text_generation_model_name, max_tokens: default_max_tokens, &block)
