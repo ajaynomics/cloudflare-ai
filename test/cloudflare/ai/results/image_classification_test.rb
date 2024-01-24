@@ -1,8 +1,8 @@
 require "test_helper"
 
-class Cloudflare::AI::Results::TextClassificationTest < Minitest::Test
+class Cloudflare::AI::Results::ImageClassificationTest < Minitest::Test
   def setup
-    @result = Cloudflare::AI::Results::TextClassification.new(successful_response_json)
+    @result = Cloudflare::AI::Results::ImageClassification.new(successful_response_json)
   end
 
   def test_successful_result
@@ -20,7 +20,7 @@ class Cloudflare::AI::Results::TextClassificationTest < Minitest::Test
 
   def successful_response_json
     {
-      result: [{label: "positive", score: 0.9999998807907104}, {label: "negative", score: 1.1920928955078125e-7}],
+      result: [{label: "PERSIAN CAT", score: 0.4071170687675476}, {label: "PEKINESE", score: 0.23444877564907074}],
       success: true,
       errors: [],
       messages: []

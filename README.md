@@ -23,7 +23,7 @@ It's still early days, and here are my immediate priorities:
   * [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
   * [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
   * [x] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
-  * [ ] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
+  * [x] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
   * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
   * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
 
@@ -147,6 +147,20 @@ All invocations of the `embed` methods return a `Cloudflare::AI::Results::TextEm
 ```ruby
 result = client.classify(text: "You meanie!")
 p result.result # => [{"label"=>"NEGATIVE", "score"=>0.6647962927818298}, {"label"=>"POSITIVE", "score"=>0.3352036774158478}]
+```
+
+#### Result object
+All invocations of the `classify` methods return a `Cloudflare::AI::Results::TextClassification`.
+
+### Image classification
+The image classification endpoint accepts either a path to a file or a file stream.
+
+```ruby
+result = client.classify(image: "/path/to/cat.jpg")
+p result.result # => {"result":[{"label":"TABBY","score":0.6159140467643738},{"label":"TIGER CAT","score":0.12016300112009048},{"label":"EGYPTIAN CAT","score":0.07523812353610992},{"label":"DOORMAT","score":0.018854796886444092},{"label":"ASHCAN","score":0.01314085815101862}],"success":true,"errors":[],"messages":[]}
+
+result = client.classify(image: File.open("/path/to/cat.jpg"))
+p result.result # => {"result":[{"label":"TABBY","score":0.6159140467643738},{"label":"TIGER CAT","score":0.12016300112009048},{"label":"EGYPTIAN CAT","score":0.07523812353610992},{"label":"DOORMAT","score":0.018854796886444092},{"label":"ASHCAN","score":0.01314085815101862}],"success":true,"errors":[],"messages":[]}
 ```
 
 #### Result object
