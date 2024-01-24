@@ -17,7 +17,7 @@ class Cloudflare::AI::Models
     end
 
     def image_classification
-      %w[@cf/huggingface/distilbert-sst-2-int8]
+      %w[@cf/microsoft/resnet-50]
     end
 
     def text_to_image
