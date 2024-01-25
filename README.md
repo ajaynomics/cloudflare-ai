@@ -24,7 +24,7 @@ It's still early days, and here are my immediate priorities:
   * [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
   * [x] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
   * [x] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
-  * [ ] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
+  * [x] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
   * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
 
 # Table of Contents
@@ -164,7 +164,16 @@ p result.result # => {"result":[{"label":"TABBY","score":0.6159140467643738},{"l
 ```
 
 #### Result object
-All invocations of the `classify` methods return a `Cloudflare::AI::Results::TextClassification`.
+All invocations of the `classify` method returns a `Cloudflare::AI::Results::TextClassification`.
+
+### Text to Image
+```ruby
+result = client.draw(prompt: "robot with blue eyes")
+p result.result # => File:0x0000000110deed68 (png tempfile)
+```
+
+#### Result object
+All invocations of the `draw` method returns a `Cloudflare::AI::Results::TextToImage`.
 
 ### Translation
 ```ruby

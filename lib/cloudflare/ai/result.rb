@@ -30,7 +30,7 @@ class Cloudflare::AI::Result
     result_data.to_json
   end
 
-  private
+  protected
 
   attr_reader :result_data
 
