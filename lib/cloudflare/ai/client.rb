@@ -41,6 +41,17 @@ class Cloudflare::AI::Client
     post_streamable_request(url, payload, &block)
   end
 
+  def draw(prompt:, num_steps: 20, model_name: Cloudflare::AI::Models.text_to_image.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    payload = {prompt: prompt, num_steps: num_steps}.to_json
+
+    result = connection.post(url, payload).body
+    binary_data = result.split(",").map(&:to_i).pack("C*")
+    Cloudflare::AI::Results::TextToImage.new(
+      Tempfile.new(["cloudflare-ai", ".png"], binmode: true).tap { |result| result.write(binary_data) }
+    )
+  end
+
   def embed(text:, model_name: Cloudflare::AI::Models.text_embedding.first)
     url = service_url_for(account_id: account_id, model_name: model_name)
     payload = {text: text}.to_json
