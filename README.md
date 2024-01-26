@@ -14,18 +14,14 @@ generation to make legal services more accessible. [Email me](mailto:cloudflare-
 
 If you're looking for legal help, it's best to book a slot via https://www.krishnan.ca.
 
-# Todo
-It's still early days, and here are my immediate priorities:
-* [x] Support for streamed responses
-* [x] CI pipeline
-* [ ] Support for more AI model categories
-  * [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
-  * [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
-  * [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
-  * [x] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
-  * [x] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
-  * [x] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
-  * [ ] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
+# Supported features
+* [x] [Text Generation](https://developers.cloudflare.com/workers-ai/models/text-generation/)
+* [x] [Text Embeddings](https://developers.cloudflare.com/workers-ai/models/text-embeddings/)
+* [x] [Text Classification](https://developers.cloudflare.com/workers-ai/models/text-classification/)
+* [x] [Translation](https://developers.cloudflare.com/workers-ai/models/translation/)
+* [x] [Image Classification](https://developers.cloudflare.com/workers-ai/models/image-classification/)
+* [x] [Text-to-Image](https://developers.cloudflare.com/workers-ai/models/text-to-image/)
+* [x] [Automatic Speech Recognition](https://developers.cloudflare.com/workers-ai/models/speech-recognition/)
 
 # Table of Contents
 
@@ -180,9 +176,23 @@ All invocations of the `draw` method returns a `Cloudflare::AI::Results::TextToI
 result = client.translate(text: "Hello Jello", source_lang: "en", target_lang: "fr")
 p result.translated_text # => Hola Jello
 ```
-
 #### Result object
-All invocations of the `translate` methods return a `Cloudflare::AI::Results::Translate`.
+All invocations of the `translate` method returns a `Cloudflare::AI::Results::Translate`.
+
+
+### Automatic speech recognition
+You can pass either a URL (source_url:) or a file (audio:) to the `transcribe` method. 
+```ruby
+result = client.transcribe(source_url: "http://example.org/path/to/audio.wav")
+p result.text # => "Hello Jello."
+p result.word_count # => 2
+p result.to_json # => {"result":{"text":"Hello Jello.","word_count":2,"words":[{"word":"Hello","start":0,"end":1.340000033378601},{"word":"Jello.","start":1.340000033378601,"end":1.340000033378601}},"success":true,"errors":[],"messages":[]}
+
+result = client.transcribe(audio: File.open("/path/to/audio.wav"))
+# ...
+```
+#### Result object
+All invocations of the `transcribe` method returns a `Cloudflare::AI::Results::Transcribe`.
 
 # Logging
 

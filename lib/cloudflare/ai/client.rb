@@ -2,7 +2,7 @@ require "event_stream_parser"
 require "faraday"
 
 class Cloudflare::AI::Client
-  include Cloudflare::AI::Clients::ImageHelpers
+  include Cloudflare::AI::Clients::MediaHelpers
   include Cloudflare::AI::Clients::TextGenerationHelpers
 
   attr_reader :url, :account_id, :api_token
@@ -57,6 +57,17 @@ class Cloudflare::AI::Client
     payload = {text: text}.to_json
 
     Cloudflare::AI::Results::TextEmbedding.new(connection.post(url, payload).body)
+  end
+
+  def transcribe(source_url: nil, audio: nil, model_name: Cloudflare::AI::Models.automatic_speech_recognition.first)
+    raise ArgumentError, "Must provide either audio_url or audio" if [source_url, audio].compact.size != 1
+
+    audio = download_audio(source_url) if source_url
+
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    response = post_request_with_binary_file(url, audio)
+
+    Cloudflare::AI::Results::AutomaticSpeechRecognition.new(response.body)
   end
 
   def translate(text:, target_lang:, source_lang: "en", model_name: Cloudflare::AI::Models.translation.first)
