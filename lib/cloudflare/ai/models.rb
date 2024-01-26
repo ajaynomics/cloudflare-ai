@@ -4,7 +4,7 @@ class Cloudflare::AI::Models
       %w[@cf/meta/llama-2-7b-chat-fp16 @cf/meta/llama-2-7b-chat-int8 @cf/mistral/mistral-7b-instruct-v0.1 @hf/thebloke/codellama-7b-instruct-awq]
     end
 
-    def speech_recognition
+    def automatic_speech_recognition
       %w[@cf/openai/whisper]
     end
 
@@ -31,7 +31,7 @@ class Cloudflare::AI::Models
     def all
       {
         text_generation: text_generation,
-        speech_recognition: speech_recognition,
+        automatic_speech_recognition: automatic_speech_recognition,
         translation: translation,
         text_classification: text_classification,
         image_classification: image_classification,
