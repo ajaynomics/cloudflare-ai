@@ -1,7 +1,7 @@
 class Cloudflare::AI::Models
   class << self
     def text_generation
-      %w[@cf/meta/llama-2-7b-chat-fp16 @cf/meta/llama-2-7b-chat-int8 @cf/mistral/mistral-7b-instruct-v0.1 @hf/thebloke/codellama-7b-instruct-awq]
+      %w[@hf/thebloke/llamaguard-7b-awq @hf/thebloke/neural-chat-7b-v3-1-awq @cf/meta/llama-2-7b-chat-fp16 @cf/mistral/mistral-7b-instruct-v0.1 @hf/thebloke/codellama-7b-instruct-awq @cf/meta/llama-2-7b-chat-int8 @hf/thebloke/mistral-7b-instruct-v0.1-awq @hf/thebloke/deepseek-coder-6.7b-base-awq @hf/thebloke/openhermes-2.5-mistral-7b-awq @hf/thebloke/deepseek-coder-6.7b-instruct-awq @hf/thebloke/zephyr-7b-beta-awq]
     end
 
     def automatic_speech_recognition
