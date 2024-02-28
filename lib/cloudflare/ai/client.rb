@@ -12,6 +12,13 @@ class Cloudflare::AI::Client
     @api_token = api_token
   end
 
+  def caption(image: nil, model_name: Cloudflare::AI::Models.image_to_text.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+
+    image = File.open(image) if image.is_a?(String)
+    Cloudflare::AI::Results::ImageToText.new(post_request_with_binary_file(url, image).body)
+  end
+
   def chat(messages:, model_name: default_text_generation_model_name, max_tokens: default_max_tokens, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
@@ -41,6 +48,13 @@ class Cloudflare::AI::Client
     post_streamable_request(url, payload, &block)
   end
 
+  def detect_objects(image: nil, model_name: Cloudflare::AI::Models.object_detection.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+
+    image = File.open(image) if image.is_a?(String)
+    Cloudflare::AI::Results::ObjectDetection.new(post_request_with_binary_file(url, image).body)
+  end
+
   def draw(prompt:, num_steps: 20, model_name: Cloudflare::AI::Models.text_to_image.first)
     url = service_url_for(account_id: account_id, model_name: model_name)
     payload = {prompt: prompt, num_steps: num_steps}.to_json
@@ -57,6 +71,13 @@ class Cloudflare::AI::Client
     payload = {text: text}.to_json
 
     Cloudflare::AI::Results::TextEmbedding.new(connection.post(url, payload).body)
+  end
+
+  def summarize(text:, model_name: Cloudflare::AI::Models.summarization.first, max_tokens: 1024)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    payload = {input_text: text, max_tokens: max_tokens}.to_json
+
+    Cloudflare::AI::Results::Summarization.new(connection.post(url, payload).body)
   end
 
   def transcribe(source_url: nil, audio: nil, model_name: Cloudflare::AI::Models.automatic_speech_recognition.first)

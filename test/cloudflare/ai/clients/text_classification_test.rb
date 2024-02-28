@@ -32,7 +32,7 @@ module Cloudflare::AI::Clients
     private
 
     def default_model_name
-      Cloudflare::AI::Models.text_embedding.first
+      Cloudflare::AI::Models.text_classification.first
     end
   end
 end
