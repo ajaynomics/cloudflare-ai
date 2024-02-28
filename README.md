@@ -194,6 +194,36 @@ result = client.transcribe(audio: File.open("/path/to/audio.wav"))
 #### Result object
 All invocations of the `transcribe` method returns a `Cloudflare::AI::Results::Transcribe`.
 
+### Summarization
+```ruby
+result = client.summarize(text: "This text should be a lot longer.")
+p result.summary # => {"result":{"summary":"Short text"},"success":true,"errors":[],"messages":[]}
+```
+#### Result object
+All invocations of the `summarize` method returns a `Cloudflare::AI::Results::Summarization` object.
+
+### Object detection
+The object detection endpoint accepts either a path to a file or a file stream.
+
+```ruby
+result = client.detect_objects(image: "/path/to/cat.jpg")
+result = client.classify(image: File.open("/path/to/cat.jpg"))
+```
+
+#### Result object
+All invocations of the `detect_objects` method returns a `Cloudflare::AI::Results::ObjectDetection` object.
+
+### Image-to-text
+The captioning endpoint accepts either a path to a file or a file stream.
+
+```ruby
+client.caption(image: "/path/to/cat.jpg").description # => "a cat sitting on a couch"
+client.caption(image: File.open("/path/to/cat.jpg")).description # => "a cat sitting on a couch"
+```
+
+#### Result object
+All invocations of the `caption` method returns a `Cloudflare::AI::Results::ImageToText` object.
+
 # Logging
 
 This gem uses standard logging mechanisms and defaults to `:warn` level. Most messages are at info level, but we will add debug or warn statements as needed.
