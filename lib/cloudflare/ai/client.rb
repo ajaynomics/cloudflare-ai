@@ -34,6 +34,13 @@ class Cloudflare::AI::Client
     end
   end
 
+  def detect_objects(image: nil, model_name: Cloudflare::AI::Models.object_detection.first)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+
+    image = File.open(image) if image.is_a?(String)
+    Cloudflare::AI::Results::ObjectDetection.new(post_request_with_binary_file(url, image).body)
+  end
+
   def complete(prompt:, model_name: default_text_generation_model_name, max_tokens: default_max_tokens, &block)
     url = service_url_for(account_id: account_id, model_name: model_name)
     stream = block ? true : false
