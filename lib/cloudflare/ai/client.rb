@@ -59,6 +59,13 @@ class Cloudflare::AI::Client
     Cloudflare::AI::Results::TextEmbedding.new(connection.post(url, payload).body)
   end
 
+  def summarize(text:, model_name: Cloudflare::AI::Models.summarization.first, max_tokens: 1024)
+    url = service_url_for(account_id: account_id, model_name: model_name)
+    payload = {input_text: text, max_tokens: max_tokens}.to_json
+
+    Cloudflare::AI::Results::Summarization.new(connection.post(url, payload).body)
+  end
+
   def transcribe(source_url: nil, audio: nil, model_name: Cloudflare::AI::Models.automatic_speech_recognition.first)
     raise ArgumentError, "Must provide either audio_url or audio" if [source_url, audio].compact.size != 1
 
