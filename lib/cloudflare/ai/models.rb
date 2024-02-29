@@ -28,7 +28,7 @@ class Cloudflare::AI::Models
     end
 
     def object_detection
-      %w[@cf/meta/det-resnet-50]
+      %w[@cf/meta/detr-resnet-50]
     end
 
     def summarization
